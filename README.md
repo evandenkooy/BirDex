@@ -1,10 +1,10 @@
-# Project Title
+# BirdDex
 
-Simple overview of use/purpose.
+A Birding App with the convenience of modern social media applications and the style of the GameBoy Pokemon games.
 
 ## Description
 
-An in-depth paragraph about your project and overview of use.
+BirdDex's primary function is to act as a "PokeDex" for birds.......
 
 ## Getting Started
 
