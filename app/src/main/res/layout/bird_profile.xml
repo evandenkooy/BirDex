@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="600dp"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".MainActivity"
+            android:background="@drawable/backrepeat">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/theBig"
+                android:weightSum="1">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" >
+
+                    <ImageView
+                        android:layout_width="500dp"
+                        android:layout_height="375dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/bird_profile_frame"
+                        android:scaleType="fitXY" />
+
+                    <ImageView
+                        android:id="@+id/profileIconImageView"
+                        android:layout_width="260dp"
+                        android:layout_height="195dp"
+                        android:layout_gravity="center"
+                        android:src ="@drawable/pixelated_question_icon" />
+
+                    <ImageView
+                        android:id="@+id/numberBackingImageView"
+                        android:layout_width="120dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="50dp"
+                        android:layout_marginLeft="50dp"
+                        android:src ="@drawable/num_backing" />
+
+                    <TextView
+                        android:id="@+id/profileNumberTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pokemon_pixel_font"
+                        android:textSize="50dp"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="60dp"
+                        android:layout_marginLeft="84dp"
+                        android:text="000" />
+
+                </FrameLayout>
+
+
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" >
+
+                    <ImageView
+                        android:layout_width="400dp"
+                        android:layout_height="124dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/profile_name_back"
+                        android:scaleType="fitXY" />
+
+                    <TextView
+                        android:id="@+id/profileNameTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/pokemon_pixel_font"
+                        android:textSize="50dp"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/white"
+                        android:text="The Bird's Name" />
+
+                    <TextView
+                        android:id="@+id/profileSciNameTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="80dp"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/pokemon_pixel_font"
+                        android:textSize="28dp"
+                        android:textColor="@color/black"
+                        android:text="The Bird's Scientific Name" />
+
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp">
+
+                    <ImageView
+                        android:layout_width="300dp"
+                        android:layout_height="76dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/type_back_profile"
+                        android:scaleType="fitXY" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="35dp"
+                        android:fontFamily="@font/pokemon_pixel_font"
+                        android:textSize="40dp"
+                        android:textColor="@color/white"
+                        android:text="Type:" />
+
+                    <TextView
+                        android:id="@+id/profileTypeTextView"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="120dp"
+                        android:fontFamily="@font/pokemon_pixel_font"
+                        android:textSize="40dp"
+                        android:textColor="@color/black"
+                        android:text="Birdy" />
+
+
+
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp">
+
+                    <ImageView
+                        android:layout_width="400dp"
+                        android:layout_height="390dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/cool_name_back"
+                        android:scaleType="fitXY" />
+
+                    <TextView
+                        android:id="@+id/profileCoolNameTextView"
+                        android:layout_width="338dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginLeft="40dp"
+                        android:fontFamily="@font/pokemon_pixel_font"
+                        android:textSize="45dp"
+                        android:textColor="@color/black"
+                        android:text="Cool Name: Cool Description " />
+
+                </FrameLayout>
+
+                <HorizontalScrollView
+                    android:id="@+id/horizontal_scroll_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/image_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"/>
+                </HorizontalScrollView>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

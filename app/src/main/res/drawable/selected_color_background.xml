@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background color -->
+    <item android:id="@+id/background_shape">
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" /> <!-- Transparent color to allow background color to show through -->
+            <stroke android:color="@color/blue" android:width="8dp" /> <!-- Blue outline -->
+        </shape>
+    </item>
+</layer-list>
