@@ -35,9 +35,11 @@ public class FilterActivity extends AppCompatActivity {
 
     private LinearLayout mainContent;
     private Typeface customFont;
-    private static final String PREF_NAME = "SelectedNumbers";
+    private static final String PREF_NAME = "SelectedNumbers"; //relates this set of shared preferences
 
     private SharedPreferences sharedPreferences;
+
+    //types to filter by
     private List<String> selectedColors = new ArrayList<>();
     private List<String> selectedSizes = new ArrayList<>();
     private List<String> selectedTails = new ArrayList<>();
@@ -50,7 +52,7 @@ public class FilterActivity extends AppCompatActivity {
 
 
 
-
+//sends the info to main acitivity so it can filter items
     public void openMainActivityWithFilterVariables(List<String> selectedColors, List<String> selectedSizes, List<String> selectedTypes, List<String> selectedTails, List<String> selectedActivities, List<String> selectedWings, List<String> selectedHabitats) {
         // Modify the selectedSizes list
         List<String> modifiedSizes = new ArrayList<>();
@@ -62,7 +64,7 @@ public class FilterActivity extends AppCompatActivity {
             }
         }
 
-        // Pass the modified selectedSizes list to MainActivity
+        // Pass the modified lists to MainActivity
         Intent intent = new Intent(this, MainActivity.class);
         intent.putStringArrayListExtra("colors_filter", (ArrayList<String>) selectedColors);
         intent.putStringArrayListExtra("sizes_filter", (ArrayList<String>) modifiedSizes);
@@ -75,6 +77,7 @@ public class FilterActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //when you click the button to go back to main acitivity
     public void onBackPressed() {
         // Call your method here
         openMainActivityWithFilterVariables(selectedColors, selectedSizes, selectedTypes, selectedTails, selectedActivities, selectedWings, selectedHabitats);
@@ -91,56 +94,52 @@ public class FilterActivity extends AppCompatActivity {
             window.setStatusBarColor(this.getResources().getColor(R.color.red));
         }
 
-        // Corrected initialization of sharedPreferences
-        sharedPreferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-
-        // Load the state of selected numbers from SharedPreferences
+        sharedPreferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE); //load shared preferences
         loadSelectedNumbersState();
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter);
+        setContentView(R.layout.activity_filter); //set view to the filter acitivy
 
         Intent intentExit = new Intent(this, ExitService.class);
         startService(intentExit);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            customFont = getResources().getFont(R.font.pokemon_pixel_font);
+            customFont = getResources().getFont(R.font.pokemon_pixel_font); //pixel font setting
         }
 
 
-
-        // Get references to views
+//create scrollbar to select categories
         HorizontalScrollView horizontalScrollView = findViewById(R.id.horizontalScrollView);
         final LinearLayout sliderContainer = findViewById(R.id.sliderContainer);
         mainContent = findViewById(R.id.mainContent);
 
-        // Add slider options dynamically
+        // Add buttons to slider for filkter categories
         final String[] categories = {"Color", "Size", "Type", "Habitat", "Tail Shape", "Wing Shape", "Activity"};
         for (final String category : categories) {
             Button button = new Button(this);
             button.setText(category);
             button.setTextSize(18);
             button.setTextColor(getResources().getColor(R.color.white));
-            button.setTypeface(customFont); // Apply custom font
+            button.setTypeface(customFont);
             button.setBackgroundResource(R.drawable.slider_button_selector);
             if (category.equals("Color")) {
                 button.setSelected(true);
                 button.setTextColor(getResources().getColor(R.color.black));
-                showOptionsForCategory(category); // Show options for the selected category
+                showOptionsForCategory(category); //Show options for the selected category
             }
 
-
+            //onlcick for selecting button
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     for (int i = 0; i < sliderContainer.getChildCount(); i++) {
                         Button childButton = (Button) sliderContainer.getChildAt(i);
                         childButton.setSelected(false);
-                        childButton.setTextColor(getResources().getColor(R.color.white)); // Reset text color to white for all buttons
+                        childButton.setTextColor(getResources().getColor(R.color.white)); // Reset text to white for all the buttons
                     }
                     Button clickedButton = (Button) v;
                     clickedButton.setSelected(true);
-                    clickedButton.setTextColor(getResources().getColor(R.color.black)); // Change text color to blue for the selected button
+                    clickedButton.setTextColor(getResources().getColor(R.color.black)); // Change to blue for button selected
                     showOptionsForCategory(category);
                 }
             });
@@ -149,10 +148,10 @@ public class FilterActivity extends AppCompatActivity {
 
     }
 
-
+//showingh the filter options for each category to filter
     private void showOptionsForCategory(String category) {
         mainContent.removeAllViews();
-        if (category.equals("Color")) {
+        if (category.equals("Color")) { //if its the color category
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
 
@@ -165,7 +164,9 @@ public class FilterActivity extends AppCompatActivity {
             colorOptionsGridLayout.setColumnCount(2);
             colorOptionsGridLayout.setOrientation(GridLayout.HORIZONTAL);
 
+            //colors it could be
             final String[] colors = {"Black", "Gray", "White", "Tan", "Brown", "Red-Brown", "Red", "Pink", "Orange", "Yellow", "Green", "Olive", "Blue", "Purple"};
+            //create buttons for each color that have each color as background
             for (final String color : colors) {
                 final Button colorButton = new Button(this);
                 colorButton.setText(color);
@@ -182,35 +183,36 @@ public class FilterActivity extends AppCompatActivity {
                 buttonLayoutParams.height = 150;
                 if (color.equals("Red-Brown")) {
                     colorButton.setTextSize(30);
-                    buttonLayoutParams.setMargins(50, 38, 50, 50); // Add margins to create spacing between buttons
+                    buttonLayoutParams.setMargins(50, 38, 50, 50);
 
                 }else{
                     colorButton.setTextSize(50);
-                    buttonLayoutParams.setMargins(50, 50, 50, 50); // Add margins to create spacing between buttons
+                    buttonLayoutParams.setMargins(50, 50, 50, 50);
 
                 }
                 colorButton.setPadding(16, 8, 16, 8);
-                colorButton.setGravity(Gravity.CENTER); // Center text horizontally and vertically within the button
+                colorButton.setGravity(Gravity.CENTER);
 
                 colorButton.setLayoutParams(buttonLayoutParams);
-                colorButton.setBackgroundColor(getColorForColorName(color)); // Set background color programmatically
+                colorButton.setBackgroundColor(getColorForColorName(color)); // Set background color
                 if (selectedColors.contains(colorButton.getText().toString())) {
                     colorButton.setBackground(getButtonBackgroundWithOutline(getColorForColorName(color)));
                 } else {
                     colorButton.setBackgroundColor(getColorForColorName(color));
                 }
+                //onclick to select color and update visually
                 colorButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         boolean isSelected = !colorButton.isSelected(); // Toggle selection state
                         if (selectedColors.contains(colorButton.getText().toString())) {
-                            // If number is already in the list, remove it
+                            //If number is already in list, remove it
                             selectedColors.remove(colorButton.getText().toString());
                         } else {
-                            // Otherwise, add it to the list
+                            // Otherwise, add to the list
                             selectedColors.add(colorButton.getText().toString());
                         }
-                        // Save the state of selected numbers
+                        //Save state of selected numbers
                         saveSelectedNumbersState();
                         colorButton.setSelected(isSelected);
                         if (selectedColors.contains(colorButton.getText().toString())) {
@@ -224,7 +226,6 @@ public class FilterActivity extends AppCompatActivity {
                 colorOptionsGridLayout.addView(colorButton);
             }
 
-            // Center the GridLayout horizontally by adjusting the left margin
             int screenWidth = getResources().getDisplayMetrics().widthPixels;
             int gridLayoutWidth = measureGridLayoutWidth(colorOptionsGridLayout);
             int leftMargin = (screenWidth - gridLayoutWidth) / 2;
@@ -236,7 +237,7 @@ public class FilterActivity extends AppCompatActivity {
             colorOptionsLayout.addView(colorOptionsGridLayout);
             mainContent.addView(colorOptionsLayout);
         }
-        if (category.equals("Size")) {
+        if (category.equals("Size")) { //if the cateogry is size
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
 
@@ -244,54 +245,55 @@ public class FilterActivity extends AppCompatActivity {
             sizeOptionsLayout.setLayoutParams(layoutParams);
             sizeOptionsLayout.setOrientation(LinearLayout.VERTICAL);
 
-            // Add image buttons for size options
+            // Add buttons for diferent sizes with select images
             int[] buttonDrawables = {R.drawable.sparrow_for_icon, R.drawable.american_robin_icon, R.drawable.american_crow_icon, R.drawable.mallard_for_size, R.drawable.great_blue_heron_icon};
-            String[] buttonTexts = {"Sparrow", "Robin", "Crow", "Mallard", "Heron"};
+            String[] buttonTexts = {"Sparrow", "Robin", "Crow", "Mallard", "Heron"}; //possible sizes
             for (int i = 0; i < buttonDrawables.length; i++) {
-                // Create a RelativeLayout to contain both the image button and the text view
+                //layout to contain buttons
                 RelativeLayout buttonLayout = new RelativeLayout(this);
                 LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 buttonLayoutParams.gravity = Gravity.CENTER_HORIZONTAL;
-                buttonLayoutParams.setMargins(20, 0, 0, 0); // Shift buttons slightly to the left
+                buttonLayoutParams.setMargins(20, 0, 0, 0);
                 buttonLayout.setLayoutParams(buttonLayoutParams);
 
-                // Add image button to the layout
+                //Add button to  layout
                 final ImageButton sizeButton = new ImageButton(this);
-                sizeButton.setId(View.generateViewId()); // Set an ID for the button
+                sizeButton.setId(View.generateViewId()); // Set ID for button
                 sizeButton.setImageResource(buttonDrawables[i]);
                 sizeButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                sizeButton.setBackgroundColor(Color.TRANSPARENT); // Set background color to transparent
+                sizeButton.setBackgroundColor(Color.TRANSPARENT); //Set background color transparent
 
-                // Apply blue color filter to the image if it's selected
+                //Apply blue color filter to  image if select
                 if (selectedSizes.contains(buttonTexts[i])) {
                     sizeButton.setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP);
                 } else {
                     sizeButton.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
                 }
 
-                // Set the size of the button
-                int buttonSize = 200 + i * 80; // Increase size progressively
+                //Set size of button
+                int buttonSize = 200 + i * 80; //Increase size progressively
                 RelativeLayout.LayoutParams buttonParams = new RelativeLayout.LayoutParams(buttonSize, buttonSize);
                 buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
                 sizeButton.setLayoutParams(buttonParams);
 
                 buttonLayout.addView(sizeButton);
 
-                // Add text view to the layout
+                //Add text view to layout for size
                 TextView textView = new TextView(this);
                 textView.setText(buttonTexts[i]);
-                textView.setTextSize(50); // Set text size
-                textView.setTypeface(customFont); // Apply custom font
+                textView.setTextSize(50);
+                textView.setTypeface(customFont);
                 RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                textParams.addRule(RelativeLayout.RIGHT_OF, sizeButton.getId()); // Align text to the right of the button
-                textParams.addRule(RelativeLayout.CENTER_VERTICAL); // Center text vertically
-                textParams.setMargins(16, 0, 0, 0); // Set margin to the left of the text
+                textParams.addRule(RelativeLayout.RIGHT_OF, sizeButton.getId());
+                textParams.addRule(RelativeLayout.CENTER_VERTICAL);
+                textParams.setMargins(16, 0, 0, 0);
                 textView.setLayoutParams(textParams);
 
                 buttonLayout.addView(textView);
 
-                // Set click listener to toggle selection and update UI accordingly
                 final int buttonIndex = i;
+
+                //onclick to select size and update visually
                 buttonLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -300,28 +302,26 @@ public class FilterActivity extends AppCompatActivity {
                         if (selectedSizes.contains(selectedSize)) {
                             // If the button is already selected, unselect it
                             selectedSizes.remove(selectedSize);
-                            sizeButton.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP); // Update color filter
+                            sizeButton.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
                         } else {
                             // If the button is not selected, select it
                             selectedSizes.add(selectedSize);
-                            sizeButton.setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP); // Update color filter
+                            sizeButton.setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP);
                         }
-                        // Update the UI to reflect the new selection state
                         showOptionsForCategory("Size");
-                        // Save selected sizes to SharedPreferences
+                        // Save selected sizes
                         saveSelectedNumbersState();
-                        // Print the selected sizes list for debugging
                         System.out.println("Selected sizes: " + selectedSizes);
                     }
                 });
 
-                // Add button layout to the main layout
+                // Add button layout to the main thing
                 sizeOptionsLayout.addView(buttonLayout);
             }
 
             mainContent.addView(sizeOptionsLayout);
         }
-        if (category.equals("Type")) {
+        if (category.equals("Type")) { //if category for filter is type
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
 
@@ -329,52 +329,52 @@ public class FilterActivity extends AppCompatActivity {
             sizeOptionsLayout.setLayoutParams(layoutParams);
             sizeOptionsLayout.setOrientation(LinearLayout.VERTICAL);
 
-            // Add image buttons for size options
+            // Add image buttons for types
             int[] buttonDrawables = {R.drawable.gull_forfilter, R.drawable.red_tailed_hawk_icon, R.drawable.uprightwater_forfilter, R.drawable.barred_owl_icon, R.drawable.perch_forfilter, R.drawable.great_blue_heron_icon, R.drawable.cling_forfilter, R.drawable.uplandground_forfilter, R.drawable.mallard_for_size, R.drawable.hummingbird_forfilter, R.drawable.sandpiper_forfilter, R.drawable.pigeon_forfilter, R.drawable.chickenmarsh_forfilter, R.drawable.swallow_forfilter};
             String[] buttonTexts = {"Gull-like Birds", "Hawk-like Birds", "Upright-perching Water Birds", "Owls", "Perching Birds", "Long-legged Waders", "Tree-clinging Birds", "Upland Ground Birds", "Duck-like Birds", "Hummingbirds", "Sandpiper-like Birds", "Pigeon-like Birds", "Chicken-like Marsh Birds", "Swallow-like Birds"};
             for (int i = 0; i < buttonDrawables.length; i++) {
-                // Create a RelativeLayout to contain both the image button and the text view
+                // Create a RelativeLayout to contain buttons
                 RelativeLayout buttonLayout = new RelativeLayout(this);
                 LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 buttonLayoutParams.gravity = Gravity.CENTER_HORIZONTAL;
-                buttonLayoutParams.setMargins(20, 0, 0, 0); // Shift buttons slightly to the left
+                buttonLayoutParams.setMargins(20, 0, 0, 0);
                 buttonLayout.setLayoutParams(buttonLayoutParams);
 
-                // Add image button to the layout
+                // Add type button to layout
                 final ImageButton typeButton = new ImageButton(this);
-                typeButton.setId(View.generateViewId()); // Set an ID for the button
+                typeButton.setId(View.generateViewId()); //Set ID for button
                 typeButton.setImageResource(buttonDrawables[i]);
                 typeButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                typeButton.setBackgroundColor(Color.TRANSPARENT); // Set background color to transparent
+                typeButton.setBackgroundColor(Color.TRANSPARENT); //Set background color transparent
 
-                // Apply blue color filter to the image if it's selected
+                // Apply blue color filter to image selected
                 if (selectedTypes.contains(buttonTexts[i])) {
                     typeButton.setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP);
                 } else {
                     typeButton.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
                 }
 
-                // Set the size of the button
+                // Set size of button
                 RelativeLayout.LayoutParams buttonParams = new RelativeLayout.LayoutParams(120, 120);
                 buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
                 typeButton.setLayoutParams(buttonParams);
 
                 buttonLayout.addView(typeButton);
 
-                // Add text view to the layout
+                // Add text view to the total layout
                 TextView textView = new TextView(this);
                 textView.setText(buttonTexts[i]);
-                textView.setTextSize(20); // Set text size
-                textView.setTypeface(customFont); // Apply custom font
+                textView.setTextSize(20);
+                textView.setTypeface(customFont);
                 RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                textParams.addRule(RelativeLayout.RIGHT_OF, typeButton.getId()); // Align text to the right of the button
-                textParams.addRule(RelativeLayout.CENTER_VERTICAL); // Center text vertically
-                textParams.setMargins(16, 0, 0, 0); // Set margin to the left of the text
+                textParams.addRule(RelativeLayout.RIGHT_OF, typeButton.getId());
+                textParams.addRule(RelativeLayout.CENTER_VERTICAL);
+                textParams.setMargins(16, 0, 0, 0);
                 textView.setLayoutParams(textParams);
 
                 buttonLayout.addView(textView);
 
-                // Set click listener to toggle selection and update UI accordingly
+                // Set click listener to toggle selection update UI
                 final int buttonIndex = i;
                 buttonLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -382,24 +382,23 @@ public class FilterActivity extends AppCompatActivity {
                         System.out.println("Selected Types: " + selectedTypes);
                         String selectedType = buttonTexts[buttonIndex];
                         if (selectedTypes.contains(selectedType)) {
-                            // If the button is already selected, unselect it
+                            // If  button is already selected, unselect it
                             selectedTypes.remove(selectedType);
-                            typeButton.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP); // Update color filter
+                            typeButton.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
                         } else {
-                            // If the button is not selected, select it
+                            // If  button is not selected, select it
                             selectedTypes.add(selectedType);
-                            typeButton.setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP); // Update color filter
+                            typeButton.setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP);
                         }
-                        // Update the UI to reflect the new selection state
+                        // Update the UI t
                         showOptionsForCategory("Type");
-                        // Save selected sizes to SharedPreferences
+                        // Save selected types
                         saveSelectedNumbersState();
-                        // Print the selected sizes list for debugging
                         System.out.println("Selected types: " + selectedTypes);
                     }
                 });
 
-                // Add button layout to the main layout
+                // Add button layout
                 sizeOptionsLayout.addView(buttonLayout);
             }
 
@@ -413,52 +412,45 @@ public class FilterActivity extends AppCompatActivity {
             sizeOptionsLayout.setLayoutParams(layoutParams);
             sizeOptionsLayout.setOrientation(LinearLayout.VERTICAL);
 
-            // Add image buttons for size options
             int[] buttonDrawables = {R.drawable.long_tail, R.drawable.rounded_tail, R.drawable.square_tail, R.drawable.notched_tail, R.drawable.multi_pointed_tail, R.drawable.wedge_tail, R.drawable.forked_tail, R.drawable.short_tail, R.drawable.pointed_tail};
             String[] buttonTexts = {"Long", "Rounded", "Square-tipped", "Notched", "Multi-pointed", "Wedge-shaped", "Forked", "Short", "Pointed"};
             for (int i = 0; i < buttonDrawables.length; i++) {
-                // Create a RelativeLayout to contain both the image button and the text view
                 RelativeLayout buttonLayout = new RelativeLayout(this);
                 LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 buttonLayoutParams.gravity = Gravity.CENTER_HORIZONTAL;
-                buttonLayoutParams.setMargins(20, 0, 0, 0); // Shift buttons slightly to the left
+                buttonLayoutParams.setMargins(20, 0, 0, 0);
                 buttonLayout.setLayoutParams(buttonLayoutParams);
 
-                // Add image button to the layout
                 final ImageButton tailButton = new ImageButton(this);
-                tailButton.setId(View.generateViewId()); // Set an ID for the button
+                tailButton.setId(View.generateViewId());
                 tailButton.setImageResource(buttonDrawables[i]);
                 tailButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                tailButton.setBackgroundColor(Color.TRANSPARENT); // Set background color to transparent
+                tailButton.setBackgroundColor(Color.TRANSPARENT);
 
-                // Apply blue color filter to the image if it's selected
                 if (selectedTails.contains(buttonTexts[i])) {
                     tailButton.setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP);
                 } else {
                     tailButton.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
                 }
 
-                // Set the size of the button
                 RelativeLayout.LayoutParams buttonParams = new RelativeLayout.LayoutParams(200, 200);
                 buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
                 tailButton.setLayoutParams(buttonParams);
 
                 buttonLayout.addView(tailButton);
 
-                // Add text view to the layout
                 TextView textView = new TextView(this);
                 textView.setText(buttonTexts[i]);
-                textView.setTextSize(30); // Set text size
-                textView.setTypeface(customFont); // Apply custom font
+                textView.setTextSize(30);
+                textView.setTypeface(customFont);
                 RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                textParams.addRule(RelativeLayout.RIGHT_OF, tailButton.getId()); // Align text to the right of the button
-                textParams.addRule(RelativeLayout.CENTER_VERTICAL); // Center text vertically
-                textParams.setMargins(16, 0, 0, 0); // Set margin to the left of the text
+                textParams.addRule(RelativeLayout.RIGHT_OF, tailButton.getId());
+                textParams.addRule(RelativeLayout.CENTER_VERTICAL);
+                textParams.setMargins(16, 0, 0, 0);
                 textView.setLayoutParams(textParams);
 
                 buttonLayout.addView(textView);
 
-                // Set click listener to toggle selection and update UI accordingly
                 final int buttonIndex = i;
                 buttonLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -466,24 +458,18 @@ public class FilterActivity extends AppCompatActivity {
                         System.out.println("Selected Tails: " + selectedTails);
                         String selectedTail = buttonTexts[buttonIndex];
                         if (selectedTails.contains(selectedTail)) {
-                            // If the button is already selected, unselect it
                             selectedTails.remove(selectedTail);
-                            tailButton.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP); // Update color filter
+                            tailButton.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
                         } else {
-                            // If the button is not selected, select it
                             selectedTails.add(selectedTail);
-                            tailButton.setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP); // Update color filter
+                            tailButton.setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP);
                         }
-                        // Update the UI to reflect the new selection state
                         showOptionsForCategory("Tail Shape");
-                        // Save selected sizes to SharedPreferences
                         saveSelectedNumbersState();
-                        // Print the selected sizes list for debugging
                         System.out.println("Selected tails: " + selectedTails);
                     }
                 });
 
-                // Add button layout to the main layout
                 sizeOptionsLayout.addView(buttonLayout);
             }
 
@@ -497,43 +483,37 @@ public class FilterActivity extends AppCompatActivity {
             sizeOptionsLayout.setLayoutParams(layoutParams);
             sizeOptionsLayout.setOrientation(LinearLayout.VERTICAL);
 
-            // Add image buttons for size options
             int[] buttonDrawables = {R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square};
             String[] buttonTexts = {"Direct Flight", "Soaring", "Flap/Glide", "Hovering", "Undulating", "Flushes", "Flitter", "Formation", "Erratic", "Swooping", "Running", "Tree-climbing", "Walking", "Hopping", "Swimming"};
             for (int i = 0; i < buttonDrawables.length; i++) {
-                // Create a RelativeLayout to contain both the image button and the text view
                 RelativeLayout buttonLayout = new RelativeLayout(this);
                 LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 buttonLayoutParams.gravity = Gravity.CENTER_HORIZONTAL;
-                buttonLayoutParams.setMargins(20, 0, 0, 0); // Shift buttons slightly to the left
+                buttonLayoutParams.setMargins(20, 0, 0, 0);
                 buttonLayout.setLayoutParams(buttonLayoutParams);
 
-                // Add image button to the layout
                 final ImageButton activityButton = new ImageButton(this);
-                activityButton.setId(View.generateViewId()); // Set an ID for the button
+                activityButton.setId(View.generateViewId());
                 activityButton.setImageResource(buttonDrawables[i]);
                 activityButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                activityButton.setBackgroundColor(Color.TRANSPARENT); // Set background color to transparent
-
-                // Apply blue color filter to the image if it's selected
+                activityButton.setBackgroundColor(Color.TRANSPARENT);
 
 
-                // Set the size of the button
+
                 RelativeLayout.LayoutParams buttonParams = new RelativeLayout.LayoutParams(1, 120);
                 buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
                 activityButton.setLayoutParams(buttonParams);
 
                 buttonLayout.addView(activityButton);
 
-                // Add text view to the layout
                 TextView textView = new TextView(this);
                 textView.setText(buttonTexts[i]);
-                textView.setTextSize(50); // Set text size
-                textView.setTypeface(customFont); // Apply custom font
+                textView.setTextSize(50);
+                textView.setTypeface(customFont);
                 RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                textParams.addRule(RelativeLayout.RIGHT_OF, activityButton.getId()); // Align text to the right of the button
-                textParams.addRule(RelativeLayout.CENTER_VERTICAL); // Center text vertically
-                textParams.setMargins(16, 0, 0, 0); // Set margin to the left of the text
+                textParams.addRule(RelativeLayout.RIGHT_OF, activityButton.getId());
+                textParams.addRule(RelativeLayout.CENTER_VERTICAL);
+                textParams.setMargins(16, 0, 0, 0);
                 textView.setLayoutParams(textParams);
 
                 buttonLayout.addView(textView);
@@ -545,7 +525,6 @@ public class FilterActivity extends AppCompatActivity {
 
                 }
 
-                // Set click listener to toggle selection and update UI accordingly
                 final int buttonIndex = i;
                 buttonLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -553,24 +532,18 @@ public class FilterActivity extends AppCompatActivity {
                         System.out.println("Selected Activities: " + selectedActivities);
                         String selectedActivity = buttonTexts[buttonIndex];
                         if (selectedActivities.contains(selectedActivity)) {
-                            // If the button is already selected, unselect it
                             selectedActivities.remove(selectedActivity);
-                            textView.setTextColor(Color.GRAY); // Update color filter
+                            textView.setTextColor(Color.GRAY);
                         } else {
-                            // If the button is not selected, select it
                             selectedActivities.add(selectedActivity);
-                            textView.setTextColor(Color.BLUE); // Update color filter
+                            textView.setTextColor(Color.BLUE);
                         }
-                        // Update the UI to reflect the new selection state
                         showOptionsForCategory("Activity");
-                        // Save selected sizes to SharedPreferences
                         saveSelectedNumbersState();
-                        // Print the selected sizes list for debugging
                         System.out.println("Selected activities: " + selectedActivities);
                     }
                 });
 
-                // Add button layout to the main layout
                 sizeOptionsLayout.addView(buttonLayout);
             }
 
@@ -584,43 +557,37 @@ public class FilterActivity extends AppCompatActivity {
             sizeOptionsLayout.setLayoutParams(layoutParams);
             sizeOptionsLayout.setOrientation(LinearLayout.VERTICAL);
 
-            // Add image buttons for size options
             int[] buttonDrawables = {R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square};
             String[] buttonTexts = {"Long", "Narrow", "Pointed", "Broad", "Rounded", "Fingered", "Short"};
             for (int i = 0; i < buttonDrawables.length; i++) {
-                // Create a RelativeLayout to contain both the image button and the text view
                 RelativeLayout buttonLayout = new RelativeLayout(this);
                 LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 buttonLayoutParams.gravity = Gravity.CENTER_HORIZONTAL;
-                buttonLayoutParams.setMargins(20, 0, 0, 0); // Shift buttons slightly to the left
+                buttonLayoutParams.setMargins(20, 0, 0, 0);
                 buttonLayout.setLayoutParams(buttonLayoutParams);
 
-                // Add image button to the layout
                 final ImageButton wingButton = new ImageButton(this);
-                wingButton.setId(View.generateViewId()); // Set an ID for the button
+                wingButton.setId(View.generateViewId());
                 wingButton.setImageResource(buttonDrawables[i]);
                 wingButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                wingButton.setBackgroundColor(Color.TRANSPARENT); // Set background color to transparent
-
-                // Apply blue color filter to the image if it's selected
+                wingButton.setBackgroundColor(Color.TRANSPARENT);
 
 
-                // Set the size of the button
+
                 RelativeLayout.LayoutParams buttonParams = new RelativeLayout.LayoutParams(1, 220);
                 buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
                 wingButton.setLayoutParams(buttonParams);
 
                 buttonLayout.addView(wingButton);
 
-                // Add text view to the layout
                 TextView textView = new TextView(this);
                 textView.setText(buttonTexts[i]);
-                textView.setTextSize(60); // Set text size
-                textView.setTypeface(customFont); // Apply custom font
+                textView.setTextSize(60);
+                textView.setTypeface(customFont);
                 RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                textParams.addRule(RelativeLayout.RIGHT_OF, wingButton.getId()); // Align text to the right of the button
-                textParams.addRule(RelativeLayout.CENTER_VERTICAL); // Center text vertically
-                textParams.setMargins(16, 0, 0, 0); // Set margin to the left of the text
+                textParams.addRule(RelativeLayout.RIGHT_OF, wingButton.getId());
+                textParams.addRule(RelativeLayout.CENTER_VERTICAL);
+                textParams.setMargins(16, 0, 0, 0);
                 textView.setLayoutParams(textParams);
 
                 buttonLayout.addView(textView);
@@ -632,7 +599,6 @@ public class FilterActivity extends AppCompatActivity {
 
                 }
 
-                // Set click listener to toggle selection and update UI accordingly
                 final int buttonIndex = i;
                 buttonLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -640,24 +606,18 @@ public class FilterActivity extends AppCompatActivity {
                         System.out.println("Selected Wings: " + selectedWings);
                         String selectedWing = buttonTexts[buttonIndex];
                         if (selectedWings.contains(selectedWing)) {
-                            // If the button is already selected, unselect it
                             selectedWings.remove(selectedWing);
-                            textView.setTextColor(Color.GRAY); // Update color filter
+                            textView.setTextColor(Color.GRAY);
                         } else {
-                            // If the button is not selected, select it
                             selectedWings.add(selectedWing);
-                            textView.setTextColor(Color.BLUE); // Update color filter
+                            textView.setTextColor(Color.BLUE);
                         }
-                        // Update the UI to reflect the new selection state
                         showOptionsForCategory("Wing Shape");
-                        // Save selected sizes to SharedPreferences
                         saveSelectedNumbersState();
-                        // Print the selected sizes list for debugging
                         System.out.println("Selected wings: " + selectedWings);
                     }
                 });
 
-                // Add button layout to the main layout
                 sizeOptionsLayout.addView(buttonLayout);
             }
 
@@ -671,43 +631,37 @@ public class FilterActivity extends AppCompatActivity {
             sizeOptionsLayout.setLayoutParams(layoutParams);
             sizeOptionsLayout.setOrientation(LinearLayout.VERTICAL);
 
-            // Add image buttons for size options
             int[] buttonDrawables = {R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square, R.drawable.blank_square};
             String[] buttonTexts = {"Forests and Woodlands", "Shrublands, Savannas, and Thickets", "Desert and Arid Habitats", "Arroyos and Canyons", "High Mountains", "Landfills and Dumps", "Fields, Meadows, and Grasslands", "Coasts and Shorelines", "Freshwater Wetlands", "Lakes, Ponds, and Rivers", "Saltwater Wetlands", "Urban and Suburban Habitats", "Tundra and Boreal Habitats", "Open Ocean"};
             for (int i = 0; i < buttonDrawables.length; i++) {
-                // Create a RelativeLayout to contain both the image button and the text view
                 RelativeLayout buttonLayout = new RelativeLayout(this);
                 LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 buttonLayoutParams.gravity = Gravity.CENTER_HORIZONTAL;
-                buttonLayoutParams.setMargins(20, 0, 0, 0); // Shift buttons slightly to the left
+                buttonLayoutParams.setMargins(20, 0, 0, 0);
                 buttonLayout.setLayoutParams(buttonLayoutParams);
 
-                // Add image button to the layout
                 final ImageButton habitatButton = new ImageButton(this);
-                habitatButton.setId(View.generateViewId()); // Set an ID for the button
+                habitatButton.setId(View.generateViewId());
                 habitatButton.setImageResource(buttonDrawables[i]);
                 habitatButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                habitatButton.setBackgroundColor(Color.TRANSPARENT); // Set background color to transparent
-
-                // Apply blue color filter to the image if it's selected
+                habitatButton.setBackgroundColor(Color.TRANSPARENT);
 
 
-                // Set the size of the button
+
                 RelativeLayout.LayoutParams buttonParams = new RelativeLayout.LayoutParams(1, 140);
                 buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
                 habitatButton.setLayoutParams(buttonParams);
 
                 buttonLayout.addView(habitatButton);
 
-                // Add text view to the layout
                 TextView textView = new TextView(this);
                 textView.setText(buttonTexts[i]);
-                textView.setTextSize(30); // Set text size
-                textView.setTypeface(customFont); // Apply custom font
+                textView.setTextSize(30);
+                textView.setTypeface(customFont);
                 RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                textParams.addRule(RelativeLayout.RIGHT_OF, habitatButton.getId()); // Align text to the right of the button
-                textParams.addRule(RelativeLayout.CENTER_VERTICAL); // Center text vertically
-                textParams.setMargins(16, 0, 0, 0); // Set margin to the left of the text
+                textParams.addRule(RelativeLayout.RIGHT_OF, habitatButton.getId());
+                textParams.addRule(RelativeLayout.CENTER_VERTICAL);
+                textParams.setMargins(16, 0, 0, 0);
                 textView.setLayoutParams(textParams);
 
                 buttonLayout.addView(textView);
@@ -719,7 +673,6 @@ public class FilterActivity extends AppCompatActivity {
 
                 }
 
-                // Set click listener to toggle selection and update UI accordingly
                 final int buttonIndex = i;
                 buttonLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -727,24 +680,18 @@ public class FilterActivity extends AppCompatActivity {
                         System.out.println("Selected Habitats: " + selectedHabitats);
                         String selectedHabitat = buttonTexts[buttonIndex];
                         if (selectedHabitats.contains(selectedHabitat)) {
-                            // If the button is already selected, unselect it
                             selectedHabitats.remove(selectedHabitat);
-                            textView.setTextColor(Color.GRAY); // Update color filter
+                            textView.setTextColor(Color.GRAY);
                         } else {
-                            // If the button is not selected, select it
                             selectedHabitats.add(selectedHabitat);
-                            textView.setTextColor(Color.BLUE); // Update color filter
+                            textView.setTextColor(Color.BLUE);
                         }
-                        // Update the UI to reflect the new selection state
                         showOptionsForCategory("Habitat");
-                        // Save selected sizes to SharedPreferences
                         saveSelectedNumbersState();
-                        // Print the selected sizes list for debugging
                         System.out.println("Selected habitats: " + selectedHabitats);
                     }
                 });
 
-                // Add button layout to the main layout
                 sizeOptionsLayout.addView(buttonLayout);
             }
 
@@ -752,6 +699,7 @@ public class FilterActivity extends AppCompatActivity {
         }
     }
 
+    //measure width of grid for color buttons
     private int measureGridLayoutWidth(GridLayout gridLayout) {
         int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
@@ -759,7 +707,7 @@ public class FilterActivity extends AppCompatActivity {
         return gridLayout.getMeasuredWidth();
     }
 
-
+//creating the backgroudn for color buttons
     private GradientDrawable getButtonBackgroundWithOutline(int color) {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setShape(GradientDrawable.RECTANGLE);
@@ -772,7 +720,7 @@ public class FilterActivity extends AppCompatActivity {
 
 
 
-
+//relating names to colors
     private int getColorForColorName(String colorName) {
         switch (colorName.toLowerCase()) {
             case "red":
@@ -808,6 +756,7 @@ public class FilterActivity extends AppCompatActivity {
         }
     }
 
+    //saving the selected filter to hashmap
     private void saveSelectedNumbersState() {
         // Save the state of selected numbers to SharedPreferences
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -826,8 +775,8 @@ public class FilterActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    //laoding the filter
     private void loadSelectedNumbersState() {
-        // Load the state of selected numbers from SharedPreferences
         Set<String> savedNumbers = sharedPreferences.getStringSet("selectedNumbers", new HashSet<String>());
         Set<String> savedSizes = sharedPreferences.getStringSet("selectedSizes", new HashSet<String>());
         Set<String> savedTypes = sharedPreferences.getStringSet("selectedTypes", new HashSet<String>());

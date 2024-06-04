@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_map"
+        android:icon="@drawable/map_icon_for_bar"
+        android:title="Map"
+        android:fontFamily="@font/pokemon_pixel_font"/>
+    <item
+        android:id="@+id/navigation_dex"
+        android:icon="@drawable/common_raven_icon"
+        android:title="Dex"
+        />
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/profile_icon_for_bar"
+        android:title="Profile"/>
+</menu>

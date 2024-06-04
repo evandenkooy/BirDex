@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="head" type="id"/>
+    <item name="body" type="id"/>
+    <item name="eyes" type="id"/>
+    <item name="nose" type="id"/>
+    <item name="mouth" type="id"/>
+    <item name="hat" type="id"/>
+</resources>

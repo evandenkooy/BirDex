@@ -23,7 +23,8 @@
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/searchView"/>
+        android:layout_below="@id/searchView"
+        android:layout_marginBottom="100dp"/>
 
     <ImageButton
         android:id="@+id/filterImageButton"
@@ -37,4 +38,13 @@
         android:layout_marginBottom="8dp"
         android:background="#0000"
         android:layout_toRightOf="@id/searchView" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemTextAppearanceActive="@style/BottomNavTextStyle"
+        app:itemTextAppearanceInactive="@style/BottomNavTextStyle"
+        app:menu="@menu/bottom_navigation_menu"/>
 </RelativeLayout>

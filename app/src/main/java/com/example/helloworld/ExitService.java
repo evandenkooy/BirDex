@@ -17,6 +17,7 @@ public class ExitService extends Service {
         return null;
     }
 
+    //clears shared preferences for filter so the filter resets when you close the app
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
@@ -24,6 +25,8 @@ public class ExitService extends Service {
         clearSharedPreferences(); // Clear SharedPreferences when the app is closed
         stopSelf(); // Stop the service
     }
+
+    //clears shared preferences in general
     private void clearSharedPreferences() {
         SharedPreferences preferences = getSharedPreferences("SelectedNumbers", Context.MODE_PRIVATE);
         Log.d("ExitService", preferences.toString());

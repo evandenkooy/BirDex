@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".MainActivity"
+            android:background="@drawable/backrepeatprofile"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/yourBig"
+                android:weightSum="1">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" >
+
+                    <ImageView
+                        android:layout_width="300dp"
+                        android:layout_height="300dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/character_back_black"
+                        android:scaleType="fitXY" />
+
+                    <com.example.helloworld.customCharacterView
+                        android:id="@+id/characterView"
+                        android:layout_width="120dp"
+                        android:layout_height="190dp"
+                        android:layout_gravity="center"
+                        android:layout_centerInParent="true"
+                        android:layout_marginBottom="10dp"/>
+
+                    <ImageButton
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="@drawable/hanger_icon"
+                        android:id="@+id/change_outfit_button"
+                        android:layout_gravity="bottom|end"
+                        android:layout_marginBottom="35dp"
+                        android:layout_marginEnd="35dp"/>
+                </FrameLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerviewlogs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="100dp"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemTextAppearanceActive="@style/BottomNavTextStyle"
+        app:itemTextAppearanceInactive="@style/BottomNavTextStyle"
+        app:menu="@menu/bottom_navigation_menu"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:id="@+id/changeOutfitFrame"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:src="@drawable/gray_opacity_back"
+            android:clickable="true"
+            />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top|center_horizontal">
+
+                <ImageView
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/character_back_black"
+                    android:scaleType="fitXY" />
+
+                <com.example.helloworld.customCharacterView
+                    android:id="@+id/editableCharacterView"
+                    android:layout_width="120dp"
+                    android:layout_height="190dp"
+                    android:layout_gravity="center"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="10dp"/>
+                <ImageButton
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/confirm_outfit_icon"
+                    android:id="@+id/confirm_outfit_button"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="35dp"
+                    android:layout_marginEnd="35dp"/>
+            </FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_marginTop="300dp"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp">
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="0dp"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:layout_width="400dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/outfit_selection_box"/>
+                        <HorizontalScrollView
+                            android:layout_width="228dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_horizontal"
+                            android:fillViewport="true">
+
+                            <LinearLayout
+                                android:id="@+id/skin_scrollview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_gravity="center_vertical">
+                                <!-- Add ImageButtons with TextViews here for Years -->
+                            </LinearLayout>
+                        </HorizontalScrollView>
+                    </FrameLayout>
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="0dp"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:layout_width="400dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/outfit_selection_box"/>
+                        <HorizontalScrollView
+                            android:layout_width="228dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_horizontal"
+                            android:fillViewport="true">
+
+                            <LinearLayout
+                                android:id="@+id/eyes_scrollview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_gravity="center_vertical">
+                                <!-- Add ImageButtons with TextViews here for Years -->
+                            </LinearLayout>
+                        </HorizontalScrollView>
+                    </FrameLayout>
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="0dp"
+                        android:layout_weight="1">
+                        <ImageView
+                            android:layout_width="400dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/outfit_selection_box"/>
+                        <HorizontalScrollView
+                            android:layout_width="228dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_horizontal"
+                            android:fillViewport="true">
+
+                            <LinearLayout
+                                android:id="@+id/nose_scrollview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_gravity="center_vertical">
+                                <!-- Add ImageButtons with TextViews here for Years -->
+                            </LinearLayout>
+                        </HorizontalScrollView>
+                    </FrameLayout>
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="0dp"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="400dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/outfit_selection_box"/>
+                    <HorizontalScrollView
+                        android:layout_width="228dp"
+                        android:layout_height="55dp"
+                        android:layout_gravity="center_horizontal"
+                        android:fillViewport="true">
+
+                        <LinearLayout
+                            android:id="@+id/mouth_scrollview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center_vertical">
+                            <!-- Add ImageButtons with TextViews here for Years -->
+                        </LinearLayout>
+                    </HorizontalScrollView>
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="0dp"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="400dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/outfit_selection_box"/>
+                    <HorizontalScrollView
+                        android:layout_width="228dp"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center_horizontal"
+                        android:fillViewport="true">
+
+                        <LinearLayout
+                            android:id="@+id/hat_scrollview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center_vertical">
+                            <!-- Add ImageButtons with TextViews here for Years -->
+                        </LinearLayout>
+                    </HorizontalScrollView>
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="0dp"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="400dp"
+                        android:layout_height="50dp"                            android:layout_gravity="center_horizontal"
+
+                        android:src="@drawable/outfit_selection_box"/>
+                    <HorizontalScrollView
+                        android:layout_width="228dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_horizontal"
+                        android:fillViewport="true">
+
+                        <LinearLayout
+                            android:id="@+id/body_scrollview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center_vertical">
+                            <!-- Add ImageButtons with TextViews here for Years -->
+                        </LinearLayout>
+                    </HorizontalScrollView>
+                </FrameLayout>
+            </LinearLayout>
+        </FrameLayout>
+    </FrameLayout>
+</RelativeLayout>
+
+
