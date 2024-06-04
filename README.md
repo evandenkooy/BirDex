@@ -4,59 +4,23 @@ A Birding App with the convenience of modern social media applications and the s
 
 ## Description
 
-BirdDex's primary function is to act as a "PokeDex" for birds.......
+BirdDex's primary function is to act as a "PokeDex" for birds. The goal is for users to be able to view North American birds in a way that paints the world of birding to be fun and engaging, like a video game. The primary function of the app is the Dex, which allows users to view bird information, photos, and audio. The dex is where users can log birds and add them to the list of birds they have caught. In addition to the dex, users also have access to a GPS where they can see their own user created character on the map. The profile is where one could keep track of their logs and customize their character.
 
 ## Getting Started
+One can find the code for the app in app>src>main>java
+In the java folder, the most extensive classes are as follows:
+Birddataimporter - Imports data for birds into app
+MainActivity - Code for the Dex, which opens on launch
+FilterActivitry - Code for the filtering menu where one can filter birds
+ProfileActivity - Code for bird profiles and logging birds
+GPSActivity - Code for the GPS tab
+YourProfileActivity - Code for the user's personal profile page
 
-### Dependencies
+### Other Information
+-App built using Android Studio
+-Webscraping for bird info done with Seleniium and BeautifulSoup
+-Runs on Android Devices
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
-
-### Installing
-
-* How/where to download your program
-* Any modifications needed to be made to files/folders
-
-### Executing program
-
-* How to run the program
-* Step-by-step bullets
-```
-code blocks for commands
-```
-
-## Help
-
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
 
 ## Authors
-
-Contributors names and contact info
-
-ex. Dominique Pizzie  
-ex. [@DomPizzie](https://twitter.com/dompizzie)
-
-## Version History
-
-* 0.2
-    * Various bug fixes and optimizations
-    * See [commit change]() or See [release history]()
-* 0.1
-    * Initial Release
-
-## License
-
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
-
-## Acknowledgments
-
-Inspiration, code snippets, etc.
-* [awesome-readme](https://github.com/matiassingers/awesome-readme)
-* [PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-* [dbader](https://github.com/dbader/readme-template)
-* [zenorocha](https://gist.github.com/zenorocha/4526327)
-* [fvcproductions](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
+Erik Vandenkooy
